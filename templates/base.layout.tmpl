@@ -18,6 +18,28 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 
+        <style>
+            .btn-outline-secondary {
+                color: aqua;
+                border-color: #6c757d;
+            }
+
+            p {
+
+            }
+
+            .paraClass {
+                font-size: 3em;
+            }
+
+            .secondClass {
+                color: red;
+            }
+
+            #lastPara {
+                text-decoration: underline;
+            }
+        </style>
 
     </head>
 
@@ -89,6 +111,7 @@
     <script src="https://unpkg.com/notie"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
 
+
     {{block "js" .}}
 
     {{end}}
@@ -130,6 +153,18 @@
                 confirmButtonText: confirmationButtonText
             })
         }
+
+        {{with .Error}}
+        notify("{{.}}", "error");
+        {{end}}
+
+        {{with .Flash}}
+        notify("{{.}}", "success");
+        {{end}}
+
+        {{with .Warning}}
+        notify("{{.}}", "warning");
+        {{end}}
 
         function Prompt() {
             let toast = function (c) {
@@ -195,22 +230,21 @@
                     title = "",
                 } = c;
 
-                const {value: formValues} = await Swal.fire({
+                const {value: result} = await Swal.fire({
                     title: title,
                     html: msg,
                     backdrop: false,
                     focusConfirm: false,
                     showCancelButton: true,
                     willOpen: () => {
-                        const elem = document.getElementById("reservation-dates-modal");
-                        const rp = new DateRangePicker(elem, {
-                            format: 'yyyy-mm-dd',
-                            showOnFocus: true,
-                        })
+                        if (c.willOpen !== undefined) {
+                            c.willOpen();
+                        }
                     },
                     didOpen: () => {
-                        document.getElementById("start").removeAttribute("disabled");
-                        document.getElementById("end").removeAttribute("disabled");
+                        if (c.didOpen !== undefined) {
+                            c.didOpen();
+                        }
                     },
                     preConfirm: () => {
                         return [
@@ -220,8 +254,18 @@
                     }
                 })
 
-                if (formValues) {
-                    Swal.fire(JSON.stringify(formValues))
+                if (result) {
+                    if (result.dismiss !== Swal.DismissReason.cancel) {
+                        if (result.value !== "") {
+                            if (c.callback !== undefined) {
+                                c.callback(result);
+                            }
+                        } else {
+                            c.callback(false);
+                        }
+                    } else {
+                        c.callback(false);
+                    }
                 }
             }
 
