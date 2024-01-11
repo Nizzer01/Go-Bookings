@@ -27,12 +27,12 @@ var theTests = []struct {
 	{"contact", "/contact", "GET", []postData{}, http.StatusOK},
 	{"make-res", "/make-reservation", "GET", []postData{}, http.StatusOK},
 	{"post-search-availability", "/search-availability", "Post", []postData{
-		{key: "start", value: "2024-01-01"},
-		{key: "end", value: "2024-01-02"},
+		{key: "start", value: "2020-01-01"},
+		{key: "end", value: "2020-01-02"},
 	}, http.StatusOK},
 	{"post-search-availability-json", "/search-availability-json", "Post", []postData{
-		{key: "start", value: "2024-01-01"},
-		{key: "end", value: "2024-01-02"},
+		{key: "start", value: "2020-01-01"},
+		{key: "end", value: "2020-01-02"},
 	}, http.StatusOK},
 	{"make-reservation", "/make-reservation", "Post", []postData{
 		{key: "first_name", value: "John"},

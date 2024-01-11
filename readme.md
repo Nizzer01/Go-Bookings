@@ -15,3 +15,6 @@ Created ./run.sh
 Test Notes:
 Coverage alias set up in local .zshrc
 alias coverage="go test -coverprofile=coverage.out && go tool cover -html=coverage.out"
+
+Run all tests from root:
+go test -v ./...
