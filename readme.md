@@ -24,4 +24,7 @@ Test Notes:
 
 
 
-Using 
+Soda:
+- Initialise DB from migrations
+  - soda migrate
+  - soda migrate down
