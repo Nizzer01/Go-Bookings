@@ -28,3 +28,4 @@ Soda:
 - Initialise DB from migrations
   - soda migrate
   - soda migrate down
+  - soda reset (runs down migrations then the up migrations) May need to disconnect datagrip from DB first
