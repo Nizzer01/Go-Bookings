@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-//DB holds the database connection pool
+// DB holds the database connection pool
 type DB struct {
 	SQL *sql.DB
 }
@@ -20,10 +20,9 @@ const maxOpenDbConn = 10
 const maxIdleDbConn = 5
 const maxDbLifetime = 5 * time.Minute
 
-// ConnectSQL Create connection pool for PG
+// ConnectSQL creates database pool for Postgres
 func ConnectSQL(dsn string) (*DB, error) {
 	d, err := NewDatabase(dsn)
-	//Check for error and die
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +38,6 @@ func ConnectSQL(dsn string) (*DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return dbConn, nil
 }
 
@@ -55,7 +53,6 @@ func testDB(d *sql.DB) error {
 // NewDatabase creates a new database for the application
 func NewDatabase(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
-	//Check for error
 	if err != nil {
 		return nil, err
 	}

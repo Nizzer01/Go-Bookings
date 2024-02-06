@@ -23,7 +23,7 @@ var session *scs.SessionManager
 var infoLog *log.Logger
 var errorLog *log.Logger
 
-// main is the main function
+// main is the main application function
 func main() {
 	db, err := run()
 	if err != nil {
@@ -31,7 +31,7 @@ func main() {
 	}
 	defer db.SQL.Close()
 
-	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
+	fmt.Println(fmt.Sprintf("Starting application on port %s", portNumber))
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -39,9 +39,7 @@ func main() {
 	}
 
 	err = srv.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(err)
 }
 
 func run() (*driver.DB, error) {
@@ -69,19 +67,18 @@ func run() (*driver.DB, error) {
 
 	app.Session = session
 
-	//connect to database
+	// connect to database
 	log.Println("Connecting to database...")
 	//TODO: Update to remove hard coded connection info
 	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=gavshields password=")
 	if err != nil {
 		log.Fatal("Cannot connect to database! Dying...")
 	}
-
 	log.Println("Connected to database!")
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
-		log.Fatal("Cannot create template cache")
+		log.Fatal("cannot create template cache")
 		return nil, err
 	}
 

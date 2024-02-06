@@ -3,18 +3,14 @@
     background-color: #163b65;
     margin-top: 1.5em;
     padding: 1em;
-    color: white;
+    color: #FFFFFF;
     font-size: 80%;
-}
-
-.notie-container {
-    box-shadow: none;
-}
-
-.datepicker {
-    z-index: 10000;
 }
 
 .room-image {
     max-width: 50%;
+}
+
+.datepicker {
+    z-index: 10000;
 }
