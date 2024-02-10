@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/Nizzer01/Go-Bookings/internal/config"
 	"github.com/Nizzer01/Go-Bookings/internal/driver"
 	"github.com/Nizzer01/Go-Bookings/internal/forms"
@@ -178,6 +179,42 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
+
+	//send email notifications to client Uses a template basic.html
+	htmlMessage := fmt.Sprintf(`
+		<strong>Reservation Confirmation</strong><br>
+		Dear %s: <br>
+		This is to confirm your reservation from %s to %s.`,
+		reservation.FirstName,
+		reservation.StartDate.Format("2006-01-02"),
+		reservation.EndDate.Format("2006-01-02"))
+
+	msg := models.MailData{
+		To:       reservation.Email,
+		From:     "bookings@app.com",
+		Subject:  "Reservation Confirmation",
+		Content:  htmlMessage,
+		Template: "basic.html",
+	}
+
+	m.App.MailChan <- msg
+
+	//send email notification to owner
+	htmlMessage = fmt.Sprintf(`
+		<strong>Reservation Notification</strong><br>
+		A reservation has been made for %s: from %s to %s.`,
+		reservation.Room.RoomName,
+		reservation.StartDate.Format("2006-01-02"),
+		reservation.EndDate.Format("2006-01-02"))
+
+	msg = models.MailData{
+		To:      "owner@bookings.com",
+		From:    "owner@bookings.com",
+		Subject: "Reservation Notification",
+		Content: htmlMessage,
+	}
+
+	m.App.MailChan <- msg
 
 	m.App.Session.Put(r.Context(), "reservation", reservation)
 

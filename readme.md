@@ -7,11 +7,14 @@ External Dependencies:
 - Uses the [chi router](https://github.com/go-chi/chi)
 - Uses [alex edwards scs session management](https://github.com/alexedwards/scs)
 - Uses [no-surf](https://github.com/justinas/nosurf)
+- Uses go-simple-mail (https://github.com/xhit/go-simple-mail)
 
 Dev Setup:
 - Using https://postgresapp.com/ for database (app variant)
-- Soda/Buffalo framework for migrations & DB managment (https://gobuffalo.io/documentation/database/pop/)
+- Soda/Buffalo framework for migrations & DB management (https://gobuffalo.io/documentation/database/pop/)
   Note installed via homebrew: brew install gobuffalo/tap/pop
+- Use MailHog for local email testing 
+- Usi Foundation for Emails to niceify our emails, (https://get.foundation/emails/getting-started.html)
 
 Run:
 Created ./run.sh
