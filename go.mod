@@ -13,5 +13,6 @@ require (
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/xhit/go-simple-mail/v2 v2.16.0 // indirect
+	golang.org/x/crypto v0.6.0
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 )

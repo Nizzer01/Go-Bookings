@@ -10,6 +10,7 @@ import (
 	"github.com/Nizzer01/Go-Bookings/internal/render"
 	"github.com/Nizzer01/Go-Bookings/internal/repository"
 	"github.com/Nizzer01/Go-Bookings/internal/repository/dbrepo"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -456,5 +457,40 @@ func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "login.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
 	})
+}
 
+func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
+	//Prevent session fixation attack
+	_ = m.App.Session.RenewToken(r.Context())
+
+	//Parse form
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+	}
+
+	email := r.Form.Get("email")
+	password := r.Form.Get("password")
+
+	form := forms.New(r.PostForm)
+	form.Required("email", "password")
+	if !form.Valid() {
+		//TODO - take user back to page
+	}
+
+	//Auth user
+	id, _, err := m.DB.Authenticate(email, password)
+	if err != nil {
+		log.Println(err)
+		m.App.Session.Put(r.Context(), "error", "Invalid login creds")
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+		return
+	}
+
+	//store id in session/login the user
+	m.App.Session.Put(r.Context(), "user_id", id)
+
+	//redirect on successful login
+	m.App.Session.Put(r.Context(), "flash", "Logged in successfully")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
