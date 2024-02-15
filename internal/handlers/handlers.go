@@ -459,6 +459,7 @@ func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// PostShowLogin handles logging in the user
 func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	//Prevent session fixation attack
 	_ = m.App.Session.RenewToken(r.Context())
