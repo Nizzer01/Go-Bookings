@@ -264,6 +264,7 @@ func (m *postgresDBRepo) AllReservations() ([]models.Reservation, error) {
 	if err != nil {
 		return reservations, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		var i models.Reservation
