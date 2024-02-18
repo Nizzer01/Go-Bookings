@@ -6,6 +6,12 @@
 
 {{define "content"}}
     <div class="col-md-12">
-        All reservations content
+        {{$res := index .Data "reservations"}}
+
+        {{range $res}}
+            {{.ID}} <br>
+        {{end}}
+
+
     </div>
 {{end}}

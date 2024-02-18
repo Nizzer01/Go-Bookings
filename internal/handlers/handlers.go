@@ -6,6 +6,7 @@ import (
 	"github.com/Nizzer01/Go-Bookings/internal/config"
 	"github.com/Nizzer01/Go-Bookings/internal/driver"
 	"github.com/Nizzer01/Go-Bookings/internal/forms"
+	"github.com/Nizzer01/Go-Bookings/internal/helpers"
 	"github.com/Nizzer01/Go-Bookings/internal/models"
 	"github.com/Nizzer01/Go-Bookings/internal/render"
 	"github.com/Nizzer01/Go-Bookings/internal/repository"
@@ -424,7 +425,7 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// BookRoom takes URL parameters, builds a sessional variable, and takes user to make res screen
+// BookRoom takes URL parameters, builds a session variable, and takes user to make reservation screen
 func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
 	roomID, _ := strconv.Atoi(r.URL.Query().Get("id"))
 	sd := r.URL.Query().Get("s")
@@ -514,8 +515,18 @@ func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
+	reservations, err := m.DB.AllReservations()
 
-	render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+	render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
 func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {
