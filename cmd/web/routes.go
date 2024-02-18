@@ -41,6 +41,7 @@ func routes(app *config.AppConfig) http.Handler {
 
 	//Secure routes for admins (can be used for authenticated users
 	mux.Route("/admin", func(mux chi.Router) {
+		//Comment below for dev access to admin section disables login
 		mux.Use(Auth)
 		mux.Get("/dashboard", handlers.Repo.AdminDashboard)
 

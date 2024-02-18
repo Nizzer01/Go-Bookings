@@ -1,4 +1,7 @@
 {{template "admin" .}}
+    {{define "css"}}
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    {{end}}
 
 {{define "page-title"}}
     All Reservations
@@ -24,10 +27,14 @@
         {{range $res}}
             <tr>
                 <td>{{.ID}}</td>
-                <td>{{.LastName}}</td>
+                <td>
+                    <a href="/admin/reservations/all/{{.ID}}">
+                    {{.LastName}}
+                    </a>
+                </td>
                 <td>{{.Room.RoomName}}</td>
-                <td>{{.StartDate}}</td>
-                <td>{{.EndDate}}</td>
+                <td>{{humanDate .StartDate}}</td>
+                <td>{{humanDate .EndDate}}</td>
 
             </tr>
 
@@ -36,4 +43,15 @@
         </table>
 
     </div>
+{{end}}
+
+{{define "js"}}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const dataTable = new simpleDatatables.DataTable("#all-res", {
+                    select: 3, sort: "desc",
+                })
+            })
+        </script>
 {{end}}
