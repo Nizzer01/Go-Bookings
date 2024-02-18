@@ -514,6 +514,7 @@ func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
+
 	render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{})
 }
 
