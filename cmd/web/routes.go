@@ -42,12 +42,14 @@ func routes(app *config.AppConfig) http.Handler {
 	//Secure routes for admins (can be used for authenticated users
 	mux.Route("/admin", func(mux chi.Router) {
 		//Comment below for dev access to admin section disables login
-		//mux.Use(Auth)
+		mux.Use(Auth)
 		mux.Get("/dashboard", handlers.Repo.AdminDashboard)
 
 		mux.Get("/reservations-new", handlers.Repo.AdminNewReservations)
 		mux.Get("/reservations-all", handlers.Repo.AdminAllReservations)
 		mux.Get("/reservations-calendar", handlers.Repo.AdminReservationsCalendar)
+
+		mux.Get("/reservations/{rec}/{id}", handlers.Repo.AdminShowReservation)
 	})
 
 	return mux
