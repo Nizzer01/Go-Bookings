@@ -11,6 +11,7 @@ import (
 	"github.com/Nizzer01/Go-Bookings/internal/render"
 	"github.com/Nizzer01/Go-Bookings/internal/repository"
 	"github.com/Nizzer01/Go-Bookings/internal/repository/dbrepo"
+	"github.com/go-chi/chi"
 	"log"
 	"net/http"
 	"strconv"
@@ -625,4 +626,15 @@ func (m *Repository) AdminPostShowReservation(w http.ResponseWriter, r *http.Req
 //AdminReservationsCalendar displays the reservation calendar
 func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{})
+}
+
+//AdminProcessReservation marks a reservation as processed
+func (m *Repository) AdminProcessReservation(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+	src := chi.URLParam(r, "src")
+
+	_ = m.DB.UpdateProcessedForReservation(id, 1)
+
+	m.App.Session.Put(r.Context(), "flash", "Reservation marked as processed!")
+	http.Redirect(w, r, fmt.Sprintf("/admin/reservations-%s", src), http.StatusSeeOther)
 }
