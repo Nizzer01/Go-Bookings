@@ -8,11 +8,10 @@
 
                 <h1>Make a Reservation</h1>
                 <p><strong>Reservation Details</strong><br>
-                Room: {{$res.Room.RoomName}}<br>
-                Arrival: {{index .StringMap "start_date"}}<br>
-                Departure: {{index .StringMap "end_date"}}
+                    Room: {{$res.Room.RoomName}}<br>
+                    Arrival: {{index .StringMap "start_date"}}<br>
+                    Departure: {{index .StringMap "end_date"}}
                 </p>
-
 
 
                 <form action="/make-reservation" method="post" class="" novalidate>
