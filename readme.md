@@ -18,6 +18,8 @@ Dev Setup:
 
 Run:
 Created ./run.sh
+brew services start mailhog (required for making reservations)
+brew services stop
 
 Test Notes:
 - Coverage alias set up in local .zshrc 
