@@ -12,3 +12,6 @@ values ('Major''s Suite', current_timestamp, current_timestamp);
 -- Set up initial restrictions
 insert into restrictions (restriction_name, created_at, updated_at)
 values ('Reservation', current_timestamp, current_timestamp);
+
+insert into restrictions (restriction_name, created_at, updated_at)
+values ('Restricted', current_timestamp, current_timestamp);
