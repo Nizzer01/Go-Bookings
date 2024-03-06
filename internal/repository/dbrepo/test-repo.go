@@ -113,7 +113,10 @@ func (m *testDBRepo) UpdateUser(u models.User) error {
 }
 
 func (m *testDBRepo) Authenticate(email, testPassword string) (int, string, error) {
-	return 1, "", nil
+	if email == "me@here.co.uk" {
+		return 1, "", nil
+	}
+	return 0, "", errors.New("failed to login")
 }
 
 //AllReservations returns a slices of reservations
